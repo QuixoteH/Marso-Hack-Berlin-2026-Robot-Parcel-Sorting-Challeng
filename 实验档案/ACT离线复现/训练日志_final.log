@@ -1,0 +1,45 @@
+/data/miniconda/envs/marso-rl/lib/python3.10/site-packages/sapien/_vulkan_tricks.py:78: UserWarning: Failed to find Vulkan ICD file. This is probably due to an incorrect or partial installation of the NVIDIA driver. SAPIEN will attempt to provide an ICD file anyway but it may not work.
+  warn(
+/data/miniconda/envs/marso-rl/lib/python3.10/site-packages/sapien/_vulkan_tricks.py:100: UserWarning: Failed to find glvnd ICD file. This is probably due to an incorrect or partial installation of the NVIDIA driver. SAPIEN will attempt to provide an ICD file anyway but it may not work.
+  warn(
+/data/miniconda/envs/marso-rl/lib/python3.10/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+/data/miniconda/envs/marso-rl/lib/python3.10/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet18_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet18_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Loading HDF5 file /data/coding/berlin-marso-hackathon/il/demos/easy/trajectory.rgb.pd_ee_delta_pos.physx_cuda.h5
+Loaded
+Load observations 200 <class 'dict'>
+Load actions 200 <class 'numpy.ndarray'>
+Raw trajectory loaded, start to pre-process the observations...
+Obs/action pre-processing is done.
+Length of Dataset: 23000
+Iteration 0, loss: 88.05538177490234
+Iteration 1000, loss: 0.14484424889087677
+Iteration 2000, loss: 0.07144293189048767
+Iteration 3000, loss: 0.05395924299955368
+Iteration 4000, loss: 0.042298100888729095
+Iteration 5000, loss: 0.027571475133299828
+Iteration 6000, loss: 0.024750852957367897
+Iteration 7000, loss: 0.03132537007331848
+Iteration 8000, loss: 0.021698471158742905
+Iteration 9000, loss: 0.026363464072346687
+Iteration 10000, loss: 0.021048130467534065
+Iteration 11000, loss: 0.014915446750819683
+Iteration 12000, loss: 0.01584559492766857
+Iteration 13000, loss: 0.01464451290667057
+Iteration 14000, loss: 0.013144326396286488
+Iteration 15000, loss: 0.014773692935705185
+Iteration 16000, loss: 0.015044184401631355
+Iteration 17000, loss: 0.01448112353682518
+Iteration 18000, loss: 0.011823572218418121
+Iteration 19000, loss: 0.018153369426727295
+Iteration 20000, loss: 0.012378592044115067
+Iteration 21000, loss: 0.013195239938795567
+Iteration 22000, loss: 0.010156665928661823
+Iteration 23000, loss: 0.013256377540528774
+Iteration 24000, loss: 0.010611656121909618
+Iteration 25000, loss: 0.010103014297783375
+Iteration 26000, loss: 0.01174685824662447
+Iteration 27000, loss: 0.010087105445563793
+Iteration 28000, loss: 0.012087665498256683
+Iteration 29000, loss: 0.012344790622591972

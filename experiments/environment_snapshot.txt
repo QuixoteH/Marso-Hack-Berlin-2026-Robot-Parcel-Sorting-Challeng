@@ -1,0 +1,16 @@
+2026-07-15T17:15:46+08:00
+6048f33217f26ae39009a812f53c81171517f393
+ M .gitignore
+ M il/baselines/diffusion_policy/diffusion_policy/make_env.py
+ M il/demos/easy/trajectory.rgb.pd_ee_delta_pos.physx_cuda.json
+ M pixi.lock
+ M pixi.toml
+ M warehouse_sort/env.py
+ M warehouse_sort/utils.py
+Python 3.10.16
+torch 2.6.0+cu126
+cuda 12.6
+gpu NVIDIA GeForce RTX 3090
+mani_skill 3.0.1
+sapien 3.0.3
+NVIDIA GeForce RTX 3090, 550.76, 24576 MiB

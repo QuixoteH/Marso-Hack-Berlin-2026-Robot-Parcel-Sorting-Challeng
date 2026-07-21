@@ -1,0 +1,6 @@
+state:
+  policy: warehouse_sort.il_policy:load_dp
+  levels:
+    easy: { checkpoint: experiments/checkpoints/state_easy_best.pt }
+    medium: { checkpoint: experiments/checkpoints/state_medium_best.pt }
+    hard: { checkpoint: experiments/checkpoints/state_hard_best.pt }

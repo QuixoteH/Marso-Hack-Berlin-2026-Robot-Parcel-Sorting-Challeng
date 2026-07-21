@@ -1,0 +1,369 @@
+{
+  "env_info": {
+    "env_id": "WarehouseSort-v1",
+    "env_kwargs": {
+      "num_envs": 1,
+      "obs_mode": "state",
+      "control_mode": "pd_ee_delta_pos",
+      "sim_backend": "gpu",
+      "render_mode": null,
+      "render_backend": "none",
+      "obs_camera": "scene",
+      "num_parcels": 6,
+      "fixed_poses": false,
+      "randomization": {
+        "parcel_pose": {
+          "xy_jitter": [
+            -0.02,
+            0.02
+          ],
+          "yaw_jitter": [
+            -0.1,
+            0.1
+          ]
+        },
+        "bin_position": {
+          "side_swap_prob": 0.5,
+          "xy_jitter": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "max_episode_steps": 100
+  },
+  "commit_info": null,
+  "episodes": [
+    {
+      "episode_id": 0,
+      "episode_seed": 2600,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 350,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2600
+      },
+      "success": true
+    },
+    {
+      "episode_id": 1,
+      "episode_seed": 2601,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 550,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2601
+      },
+      "success": false
+    },
+    {
+      "episode_id": 2,
+      "episode_seed": 2602,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 356,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2602
+      },
+      "success": true
+    },
+    {
+      "episode_id": 3,
+      "episode_seed": 2603,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 348,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2603
+      },
+      "success": true
+    },
+    {
+      "episode_id": 4,
+      "episode_seed": 2604,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 349,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2604
+      },
+      "success": true
+    },
+    {
+      "episode_id": 5,
+      "episode_seed": 2605,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 360,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2605
+      },
+      "success": true
+    },
+    {
+      "episode_id": 6,
+      "episode_seed": 2606,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 358,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2606
+      },
+      "success": true
+    },
+    {
+      "episode_id": 7,
+      "episode_seed": 2607,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 349,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2607
+      },
+      "success": true
+    },
+    {
+      "episode_id": 8,
+      "episode_seed": 2608,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 359,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2608
+      },
+      "success": true
+    },
+    {
+      "episode_id": 9,
+      "episode_seed": 2609,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 359,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2609
+      },
+      "success": true
+    },
+    {
+      "episode_id": 10,
+      "episode_seed": 2610,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 358,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2610
+      },
+      "success": true
+    },
+    {
+      "episode_id": 11,
+      "episode_seed": 2611,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 550,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2611
+      },
+      "success": false
+    },
+    {
+      "episode_id": 12,
+      "episode_seed": 2612,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 350,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2612
+      },
+      "success": true
+    },
+    {
+      "episode_id": 13,
+      "episode_seed": 2613,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 358,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2613
+      },
+      "success": true
+    },
+    {
+      "episode_id": 14,
+      "episode_seed": 2614,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 359,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2614
+      },
+      "success": true
+    },
+    {
+      "episode_id": 15,
+      "episode_seed": 2615,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 350,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2615
+      },
+      "success": true
+    },
+    {
+      "episode_id": 16,
+      "episode_seed": 2616,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 358,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2616
+      },
+      "success": true
+    },
+    {
+      "episode_id": 17,
+      "episode_seed": 2617,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 349,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2617
+      },
+      "success": true
+    },
+    {
+      "episode_id": 18,
+      "episode_seed": 2618,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 550,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2618
+      },
+      "success": false
+    },
+    {
+      "episode_id": 19,
+      "episode_seed": 2619,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 358,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2619
+      },
+      "success": true
+    },
+    {
+      "episode_id": 20,
+      "episode_seed": 2620,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 350,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2620
+      },
+      "success": true
+    },
+    {
+      "episode_id": 21,
+      "episode_seed": 2621,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 351,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2621
+      },
+      "success": true
+    },
+    {
+      "episode_id": 22,
+      "episode_seed": 2622,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 351,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2622
+      },
+      "success": true
+    },
+    {
+      "episode_id": 23,
+      "episode_seed": 2623,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 359,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2623
+      },
+      "success": true
+    },
+    {
+      "episode_id": 24,
+      "episode_seed": 2624,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 350,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2624
+      },
+      "success": true
+    },
+    {
+      "episode_id": 25,
+      "episode_seed": 2625,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 353,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2625
+      },
+      "success": true
+    },
+    {
+      "episode_id": 26,
+      "episode_seed": 2626,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 359,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2626
+      },
+      "success": true
+    },
+    {
+      "episode_id": 27,
+      "episode_seed": 2627,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 358,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2627
+      },
+      "success": true
+    },
+    {
+      "episode_id": 28,
+      "episode_seed": 2628,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 360,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2628
+      },
+      "success": true
+    },
+    {
+      "episode_id": 29,
+      "episode_seed": 2629,
+      "control_mode": "pd_ee_delta_pos",
+      "elapsed_steps": 359,
+      "reset_kwargs": {
+        "options": null,
+        "seed": 2629
+      },
+      "success": true
+    }
+  ]
+}
