@@ -1,4 +1,4 @@
-# State Diffusion Policy
+# 状态 Diffusion Policy
 
 ## 目标与范围
 
