@@ -1,6 +1,6 @@
-# Imitation Learning — WarehouseSort
+# Imitation Learning——WarehouseSort
 
-Main track is **state-based**. The IL pipeline follows ManiSkill 3's standard approach:
+# 主赛道为 state。IL 流程遵循 ManiSkill 3 的标准路径：
 **demos → train state Diffusion Policy → evaluate via eval.py**. A state DP runs end-to-end as a
 starting point. An optional **RGB** image track is also provided as a template
 (`method=dp_rgb`, `load_dp_rgb`) — harder, not yet solving the task.
