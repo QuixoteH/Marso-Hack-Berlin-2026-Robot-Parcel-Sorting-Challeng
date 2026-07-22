@@ -20,11 +20,11 @@
 
 ## 可复现性
 
-- Official base commit: `6048f33217f26ae39009a812f53c81171517f393`。
-- Environment: Python 3.10.16, PyTorch 2.6.0+cu126, CUDA 12.6, ManiSkill 3.0.1, SAPIEN 3.0.3, RTX 3090 24 GiB.
-- Demonstration datasets: Easy 200, Medium 400, Hard 600 successful state trajectories.
-- Submission archive: `experiments/marso_final_submission.tar.gz`; its SHA-256 is stored alongside it in `experiments/marso_final_submission.tar.gz.sha256`.
-- Local copy command: `scp root@SERVER_IP:/data/coding/berlin-marso-hackathon/experiments/marso_final_submission.tar.gz /home/quixoteh/desktop/`
+- 上游基础 commit：`6048f33217f26ae39009a812f53c81171517f393`。
+- 环境：Python 3.10.16、PyTorch 2.6.0+cu126、CUDA 12.6、ManiSkill 3.0.1、SAPIEN 3.0.3、RTX 3090 24 GiB。
+- 示范数据：Easy 200 条、Medium 400 条、Hard 600 条 successful state trajectory。
+- 提交 archive：`experiments/marso_final_submission.tar.gz`；其 SHA-256 存在同目录 `experiments/marso_final_submission.tar.gz.sha256`。
+- 本地复制命令：`scp root@SERVER_IP:/data/coding/berlin-marso-hackathon/experiments/marso_final_submission.tar.gz /home/quixoteh/desktop/`
 
 ## 限制
 
