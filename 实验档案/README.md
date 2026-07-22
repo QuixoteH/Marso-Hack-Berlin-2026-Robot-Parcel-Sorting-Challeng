@@ -1,12 +1,12 @@
-# Experiment Archive
+# 实验档案
 
-This directory preserves the small, reviewable DP and ACT material that was originally scattered under `/data/coding`. Files retain their original names where possible so report links, commands, and hashes remain auditable.
+本目录保留原先散落在 `/data/coding` 的紧凑、可审阅 DP 与 ACT 材料。文件尽可能保留原名，使报告链接、命令和 hash 可审计。
 
-| Directory | Contents |
+| 目录 | 内容 |
 |---|---|
-| [原始报告](原始报告/) | Environment records and DP batch reports |
-| [ACT离线复现](ACT离线复现/) | Easy ACT 30k offline training report and final training log |
+| [原始报告](原始报告/) | 环境记录与 DP 各批次报告 |
+| [ACT离线复现](ACT离线复现/) | Easy ACT 30k 离线训练报告与最终训练日志 |
 
-Large files are intentionally absent from this directory and from Git: H5 datasets, checkpoint binaries, TensorBoard event files, generated run folders, and tar archives. Use [RELEASE_MANIFEST.md](../RELEASE_MANIFEST.md) for their local source paths and integrity data.
+H5 数据集、checkpoint binary、TensorBoard event file、生成的 run folder 和 tar archive 体积较大，因此不在本目录也不进入 Git。其本地来源与 integrity data 见 [RELEASE_MANIFEST.md](../RELEASE_MANIFEST.md)。
 
-The DP result table and final interpretation are [experiments/results.csv](../experiments/results.csv) and [experiments/final_report.md](../experiments/final_report.md).
+DP 结果表和最终解释分别见 [experiments/results.csv](../experiments/results.csv) 与 [experiments/final_report.md](../experiments/final_report.md)。
