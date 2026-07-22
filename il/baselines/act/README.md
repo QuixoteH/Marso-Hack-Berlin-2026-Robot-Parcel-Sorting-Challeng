@@ -1,4 +1,4 @@
-# Action Chunking with Transformers（ACT）
+# Transformer 动作分块（ACT）
 
 本目录包含基于论文 [Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware](https://arxiv.org/pdf/2304.13705) 的 ACT 实现，改编自[原始代码](https://github.com/tonyzhaozh/act)。
 
