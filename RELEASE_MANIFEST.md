@@ -4,11 +4,11 @@
 
 ## Git 中包含
 
-- Challenge source modifications, DP/ACT scripts, and policy loaders.
+- 挑战源码改动、DP/ACT 脚本和 policy loader。
 - `experiments/results.csv`, `experiments/final_report.md`, selected shell tooling, JSON manifests, and SHA-256 lists.
 - The original DP reports and compact ACT offline-reproduction material under `实验档案/`.
-- Four final DP evaluation logs, one ACT training log, and two source-labelled figures under `evidence/`.
-- Media that documents the task, configuration files, and the selected `submission.yaml`.
+- `evidence/` 下的四份最终 DP 评估日志、一份 ACT 训练日志和两张标注来源的图。
+- 记录任务的 media、配置文件和选定的 `submission.yaml`。
 
 ## 有意仅保留在本地
 
