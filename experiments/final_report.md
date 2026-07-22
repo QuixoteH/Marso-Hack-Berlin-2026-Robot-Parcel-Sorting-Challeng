@@ -1,12 +1,12 @@
-# Marso Final Experiment Report
+# Marso 最终实验报告
 
 完成时间：2026-07-18T04:09:14+08:00
 
-## Final Policy
+## 最终 Policy
 
 三个难度均选择 State Diffusion Policy（DP）。最终封存结果以官方 loader、固定 50 episodes 和无视频 headless 环境为准。
 
-## Final Verification
+## 最终验证
 
 最终 DP checkpoint 使用官方 loader 在无训练进程的干净 shell 中完成固定 50-episode、无视频复验：Easy 0.390、Medium 0.090、Hard 0.103。评估显式固定 Torch/CUDA RNG seed 为 0，并重复 Easy 得到相同分数。挑战权重为 Easy/Medium/Hard = `0.20 / 0.30 / 0.50`，故这组三个本地固定种子结果的加权值为 `0.1565`。该数值不是 Kaggle held-out leaderboard 分数。
 
@@ -18,14 +18,14 @@
 
 完整逐次训练和评估记录在 `experiments/results.csv`；最终确定性加载复验日志公开在 [`evidence/evaluations/`](../evidence/evaluations/)；哈希清单在 `experiments/checkpoints/SHA256SUMS`。候选分数图由 CSV 生成，见 [`evidence/figures/dp_candidate_scores.png`](../evidence/figures/dp_candidate_scores.png)。
 
-## Reproducibility
+## 可复现性
 
-- Official base commit: `6048f33217f26ae39009a812f53c81171517f393`。
-- Environment: Python 3.10.16, PyTorch 2.6.0+cu126, CUDA 12.6, ManiSkill 3.0.1, SAPIEN 3.0.3, RTX 3090 24 GiB.
-- Demonstration datasets: Easy 200, Medium 400, Hard 600 successful state trajectories.
-- Submission archive: `experiments/marso_final_submission.tar.gz`; its SHA-256 is stored alongside it in `experiments/marso_final_submission.tar.gz.sha256`.
-- Local copy command: `scp root@SERVER_IP:/data/coding/berlin-marso-hackathon/experiments/marso_final_submission.tar.gz /home/quixoteh/desktop/`
+- 上游基础 commit：`6048f33217f26ae39009a812f53c81171517f393`。
+- 环境：Python 3.10.16、PyTorch 2.6.0+cu126、CUDA 12.6、ManiSkill 3.0.1、SAPIEN 3.0.3、RTX 3090 24 GiB。
+- 示范数据：Easy 200 条、Medium 400 条、Hard 600 条 successful state trajectory。
+- 提交 archive：`experiments/marso_final_submission.tar.gz`；其 SHA-256 存在同目录 `experiments/marso_final_submission.tar.gz.sha256`。
+- 本地复制命令：`scp root@SERVER_IP:/data/coding/berlin-marso-hackathon/experiments/marso_final_submission.tar.gz /home/quixoteh/desktop/`
 
-## Limitations
+## 限制
 
 服务器缺少可用的 NVIDIA Vulkan graphics 配置，实验和提交均使用 state/headless 路径；未声明或依赖 RGB 渲染能力。工作树包含本实验所需的未提交环境和训练代码改动，详情见 `git status --short`。

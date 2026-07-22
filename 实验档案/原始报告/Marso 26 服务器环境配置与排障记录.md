@@ -445,7 +445,7 @@ reset: success
 step: success
 ```
 
-## 10. State Diffusion Policy smoke test
+## 10. State Diffusion Policy 冒烟测试
 
 仅验证链路，不代表策略性能：
 

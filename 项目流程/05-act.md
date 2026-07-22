@@ -1,52 +1,33 @@
-# RGB ACT Offline Reproduction
+# RGB ACT 离线复现
 
-## Purpose And Boundary
+## 目的与边界
 
-This branch reproduces the Easy RGB ACT training configuration from the public leaderboard worktree, then records exactly what can and cannot be verified on the available host. ACT receives the scene camera image plus robot proprioception; unlike DP, it does not receive the privileged state vector. The completed result is **offline optimization and checkpoint-load verification**, not a closed-loop task score.
+本分支复现公开 leaderboard worktree 的 Easy RGB ACT 训练配置，并记录可验证与不可验证的内容。ACT 使用 scene RGB 和 robot proprioception，不使用 privileged state。完成结果是离线优化与 checkpoint-load 验证，**不是**闭环任务成绩。
 
-The source is vendored under [`il/baselines/act/`](../il/baselines/act/). The submission-compatible loader is `warehouse_sort.act_policy:load_act`. The compact report and original retained log are in [实验档案/ACT离线复现](../实验档案/ACT离线复现/); the copy supplied with the key-artifact archive is under [`evidence/act/`](../evidence/act/).
+源码位于 [`il/baselines/act/`](../il/baselines/act/)，提交 loader 为 `warehouse_sort.act_policy:load_act`；报告与日志见 [实验档案/ACT离线复现](../实验档案/ACT离线复现/) 和 [`evidence/act/`](../evidence/act/)。
 
-## Recorded Training Configuration
+## 记录的训练配置
 
-| Item | Recorded value |
+| 项目 | 值 |
 |---|---|
-| Difficulty and input | Easy, scene RGB plus proprioception |
-| Demonstrations | 200 successful trajectories, 23,000 transitions |
-| Backbone and policy | ResNet-18, DETR/CVAE, EMA |
-| Objective | L1 plus KL, KL weight 10 |
-| Optimizer settings | learning rate `1e-4`, batch size 32, seed 1 |
-| Action chunking | 30 action queries with temporal aggregation enabled for training |
-| Training duration | 30,000 updates |
-| Runtime deviation | `--skip-env-eval` skips only Vulkan-dependent online evaluation |
-
-The public configuration is [`il/conf/method/act_rgb.yaml`](../il/conf/method/act_rgb.yaml). To reproduce the offline run on a host with the RGB dataset:
+| 数据 | Easy，200 条 successful trajectories，23,000 transitions |
+| 模型 | ResNet-18、DETR/CVAE、EMA |
+| 目标 | L1 + KL，KL weight 10 |
+| 优化 | learning rate `1e-4`、batch size 32、seed 1 |
+| chunking | 30 action queries，训练期启用 temporal aggregation |
+| 训练量 | 30,000 updates |
+| 唯一运行时差异 | `--skip-env-eval` 跳过 Vulkan 依赖的在线评估 |
 
 ```bash
 pixi run python il/train.py method=act_rgb demo_dir=easy \
   flags.seed=1 flags.total_iters=30000 flags.batch_size=32 \
-  flags.lr=1e-4 flags.kl_weight=10 \
-  flags.exp_name=act_easy_rank1_offline_30k
+  flags.lr=1e-4 flags.kl_weight=10
 ```
 
-## Offline Training Evidence
+## 离线证据与缺口
 
-![ACT Easy offline training loss](../evidence/figures/act_easy_loss.png)
+![ACT Easy 离线训练 loss](../evidence/figures/act_easy_loss.png)
 
-The plot is generated from the copied terminal log, not TensorBoard. It records loss falling from `88.055382` at update 0 to `0.012345` at update 29,000, with all 30,000 updates completed. The source is [`evidence/act/act_easy_training.log`](../evidence/act/act_easy_training.log); regenerate the figure with `python scripts/generate_evidence_figures.py`.
+该图由 [`evidence/act/act_easy_training.log`](../evidence/act/act_easy_training.log) 生成，不是 TensorBoard；它记录 loss 从 update 0 的 `88.055382` 下降至 update 29,000 的 `0.012345`，并完成 30,000 updates。checkpoint 独立加载后输出 shape 为 `(2, 4)`、数值有限，预期 SHA-256 为 `9654561175bc7e9c6d289fa7a74e235c20aa8a63cdc3aaca0795ca0ff6dc43fe`。
 
-The final checkpoint passed an independent load/inference check: output shape `(2, 4)`, finite values, and sample action range `[-0.211787, 0.621868]`. Its expected SHA-256 is `9654561175bc7e9c6d289fa7a74e235c20aa8a63cdc3aaca0795ca0ff6dc43fe`.
-
-## Why A Closed-Loop ACT Score Is Absent
-
-SAPIEN could not initialise a compatible NVIDIA Vulkan renderer on the training host. The captured log reports missing Vulkan ICD and GLVND ICD files. CUDA compute was available, which is enough to train the model, but CUDA alone is insufficient to create the RGB simulation environment. The project therefore does not label the missing score as zero and does not present the ACT curve as manipulation success.
-
-To obtain a reportable ACT score, move the restored checkpoint and this worktree to a host with a functional NVIDIA graphics/Vulkan driver, then run the official 50-episode protocol:
-
-```bash
-pixi run python eval.py difficulty=easy \
-  policy=warehouse_sort.act_policy:load_act \
-  checkpoint=PATH_TO_ACT_CHECKPOINT \
-  eval_config=conf/eval/server_50.yaml
-```
-
-Record the exact driver, renderer initialization, seeds, `sort_accuracy`, mean sorted parcels, and video policy with the result. Until that run exists, the only defensible ACT claim is the offline reproduction described above.
+训练主机的 CUDA 可用，但 SAPIEN 无法初始化兼容的 NVIDIA Vulkan renderer，日志记录了缺失 Vulkan ICD 与 GLVND ICD。因此不能给出 RGB closed-loop 分数，也不得把缺失成绩写为零分。要得到可报告结果，应在具备 NVIDIA graphics/Vulkan driver 的主机恢复 checkpoint 后运行官方 50-episode 协议。

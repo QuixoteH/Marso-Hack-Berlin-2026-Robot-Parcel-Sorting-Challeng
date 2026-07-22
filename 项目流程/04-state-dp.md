@@ -1,55 +1,40 @@
-# State Diffusion Policy
+# 状态 Diffusion Policy
 
-## Goal And Scope
+## 目标与范围
 
-The state DP track is the completed, submit-ready path in this archive. It maps the task's privileged low-dimensional state observation to short end-effector action sequences. Each difficulty has a different state dimension, so one checkpoint cannot be shared across Easy, Medium, and Hard. This section documents what was actually trained and evaluated; it does not present state DP and RGB ACT as a like-for-like comparison.
+state DP 是本档案中已完成且可提交的主路径。它将 privileged 低维 state 观测映射为末端执行器动作序列。Easy、Medium、Hard 的 state 维度不同，不能共享 checkpoint。本文记录实际训练与评估，不将 state DP 与 RGB ACT 作为公平算法排名。
 
-The implementation is selected through `il/train.py method=dp`. The method configuration is [`il/conf/method/dp.yaml`](../il/conf/method/dp.yaml), the submit-time loader is `warehouse_sort.il_policy:load_dp`, and the three selected paths are declared in [`submission.yaml`](../submission.yaml).
+训练入口为 `il/train.py method=dp`，配置位于 [`il/conf/method/dp.yaml`](../il/conf/method/dp.yaml)，提交 loader 为 `warehouse_sort.il_policy:load_dp`，三个 checkpoint 路径在 [`submission.yaml`](../submission.yaml)。
 
-## Reproduce A Training Candidate
-
-From a prepared Pixi environment with the official demonstrations available:
+## 训练候选
 
 ```bash
-# Easy baseline: 200 state demonstrations, seed 1, 30k updates.
 pixi run python il/train.py method=dp demo_dir=easy \
   flags.seed=1 flags.total_iters=30000 flags.batch_size=256 \
   flags.exp_name=dp_easy_baseline_s1
 
-# Hard selected-family setting: 600 state demonstrations, batch 512, 100k updates.
 pixi run python il/train.py method=dp demo_dir=hard \
   flags.seed=3 flags.total_iters=100000 flags.batch_size=512 \
   flags.exp_name=dp_hard_aug_b512_s3
 ```
 
-The DP defaults are observation horizon 2, action horizon 8, prediction horizon 16, and fixed evaluation with 16 episodes during training. Training-time values are only screening signals. They must not replace the 50-episode final protocol in [03-data-and-protocol.md](03-data-and-protocol.md).
+默认设置为 observation horizon 2、action horizon 8、prediction horizon 16。训练期 16-episode 指标仅用于筛选，最终选择必须遵循 [03-data-and-protocol.md](03-data-and-protocol.md) 的 50-episode 协议。
 
-## Candidate Evidence
+## 候选证据
 
-![State DP fixed 50-episode candidate scores](../evidence/figures/dp_candidate_scores.png)
+![State DP 固定 50-episode 候选成绩](../evidence/figures/dp_candidate_scores.png)
 
-The chart is generated from [`experiments/results.csv`](../experiments/results.csv), where every row records phase, difficulty, seed, demo count, iterations, batch size, fixed episode count, checkpoint path, score, and short diagnostic notes. It covers these controls:
+该图由 [`experiments/results.csv`](../experiments/results.csv) 生成，记录 phase、难度、seed、示范数、迭代数、batch size、checkpoint 与 `sort_accuracy`。证据显示：更长训练并非普遍改进；Medium 的 400-demo 候选低于 200-demo baseline；Hard 的 600-demo 与 batch 512 路径得到保留。该图是 CSV 派生图，不是 TensorBoard 输出。
 
-| Control | Evidence-bound conclusion |
-|---|---|
-| Longer training | Easy was tied at 0.170; Medium dropped from 0.110 to 0.080; Hard increased from 0.037 to 0.040. More updates were not a universal improvement. |
-| More demonstrations | Medium 400-demo candidate was 0.055 versus the 200-demo baseline at 0.110; Hard 600-demo candidate was retained over the earlier 200-demo runs. |
-| Batch size 512 | Medium fell to 0.050; Hard reached 0.087 in the first 512-batch check. |
-| Seed controls | Final family reruns cover seeds 1-3. The selected clean-shell checkpoints were evaluated separately with seed 0. |
+## 最终 checkpoint 与复验
 
-This figure is a CSV-derived publication aid, not TensorBoard output. The supplied artifact archive does not contain DP TensorBoard event files.
+选定 checkpoint 使用官方 loader 在 clean shell 复验：Torch/CUDA RNG seed 0、50 diffusion inference steps、50 episodes、seeds `5000-5049`、关闭视频。Easy 的第二次运行一致；原始日志公开在 [`evidence/evaluations/`](../evidence/evaluations/)。
 
-## Final Checkpoints And Independent Evaluation
-
-The selected checkpoints were re-evaluated through the official loader in a clean shell with Torch/CUDA RNG seed 0, 50 diffusion inference steps, 50 episodes, fixed seeds `5000-5049`, and video disabled. Easy was run twice and matched. The logs are included under [`evidence/evaluations/`](../evidence/evaluations/).
-
-| Difficulty | Selected checkpoint | `sort_accuracy` | Mean correctly sorted | Repeat evidence |
-|---|---|---:|---:|---|
-| Easy | `state_easy_best.pt` | 0.390 | 0.78 / 2 | matching second 0.390 run |
-| Medium | `state_medium_best.pt` | 0.090 | 0.36 / 4 | one recorded clean-shell run |
-| Hard | `state_hard_best.pt` | 0.103 | 0.62 / 6 | one recorded clean-shell run |
-
-Run the same protocol after restoring the binaries:
+| 难度 | checkpoint | `sort_accuracy` | 平均正确分拣 |
+|---|---|---:|---:|
+| Easy | `state_easy_best.pt` | 0.390 | 0.78 / 2 |
+| Medium | `state_medium_best.pt` | 0.090 | 0.36 / 4 |
+| Hard | `state_hard_best.pt` | 0.103 | 0.62 / 6 |
 
 ```bash
 pixi run python eval.py difficulty=easy \
@@ -58,10 +43,4 @@ pixi run python eval.py difficulty=easy \
   eval_config=conf/eval/server_50.yaml
 ```
 
-Repeat it for `medium` and `hard`, changing both the difficulty and checkpoint. Compare SHA-256 against [`experiments/checkpoints/SHA256SUMS`](../experiments/checkpoints/SHA256SUMS) before evaluation. The precise result interpretation is in [`experiments/final_report.md`](../experiments/final_report.md).
-
-## What The Result Does Not Establish
-
-- A 50-episode local value is not a held-out competition score.
-- `all_placed_rate` is zero in all three logged final evaluations; `sort_accuracy` is therefore the reported primary metric rather than a claim of complete-episode success.
-- The state track uses privileged observations. Its result cannot establish that an RGB-only method is worse or better.
+恢复二进制后先以 [`experiments/checkpoints/SHA256SUMS`](../experiments/checkpoints/SHA256SUMS) 核验。上述结果仅证明本地固定协议，且三个最终日志中的 `all_placed_rate` 都为零；不得称为 held-out leaderboard 成绩或完整 episode 成功率。

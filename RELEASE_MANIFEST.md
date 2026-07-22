@@ -1,18 +1,18 @@
-# Release Manifest
+# 发布清单
 
-This repository is prepared for ordinary GitHub Git hosting, not Git LFS. The included material is sufficient to inspect code changes, configurations, results, report methodology, and small audit evidence.
+本仓库面向普通 GitHub Git 托管，而非 Git LFS。已包含的材料足以审阅代码改动、配置、结果、报告方法与紧凑审计证据。
 
-## Included in Git
+## Git 中包含
 
-- Challenge source modifications, DP/ACT scripts, and policy loaders.
+- 挑战源码改动、DP/ACT 脚本和 policy loader。
 - `experiments/results.csv`, `experiments/final_report.md`, selected shell tooling, JSON manifests, and SHA-256 lists.
 - The original DP reports and compact ACT offline-reproduction material under `实验档案/`.
-- Four final DP evaluation logs, one ACT training log, and two source-labelled figures under `evidence/`.
-- Media that documents the task, configuration files, and the selected `submission.yaml`.
+- `evidence/` 下的四份最终 DP 评估日志、一份 ACT 训练日志和两张标注来源的图。
+- 记录任务的 media、配置文件和选定的 `submission.yaml`。
 
-## Deliberately Local-Only
+## 有意仅保留在本地
 
-| Artifact class | Local location | Reason |
+| 产物类别 | 本地位置 | 原因 |
 |---|---|---|
 | Selected DP checkpoints | `experiments/checkpoints/*.pt` | 35-38 MiB each; release separately to keep clone size practical |
 | DP submission archive | `experiments/marso_final_submission.tar.gz` | about 195 MiB; exceeds GitHub's per-file limit |
@@ -22,7 +22,7 @@ This repository is prepared for ordinary GitHub Git hosting, not Git LFS. The in
 | ACT checkpoint | `/data/coding/ACT榜一复现实验_2026-07-19/checkpoints/act_easy_rank1_offline_30k_final.pt` | 133 MiB; exceeds GitHub's per-file limit |
 | Original archives and dataset zip | `/data/coding/*.tar.gz`, `/data/coding/*challenge*.zip` | source delivery artifacts, up to 408 MiB |
 
-## Integrity Anchors
+## 完整性锚点
 
 | Artifact | SHA-256 |
 |---|---|
@@ -32,4 +32,4 @@ This repository is prepared for ordinary GitHub Git hosting, not Git LFS. The in
 | Final DP submission archive | `86246a605503d42ccb7d8fe02ab29d2a1f3a538fd3604739af8191e80440d0ab` |
 | ACT Easy offline 30k checkpoint | `9654561175bc7e9c6d289fa7a74e235c20aa8a63cdc3aaca0795ca0ff6dc43fe` |
 
-Before publishing artifacts through a GitHub Release or LFS, calculate the checksum again and compare it with this manifest and `experiments/checkpoints/SHA256SUMS`.
+通过 GitHub Release 或 LFS 发布产物前，请重新计算 checksum，并与本清单和 `experiments/checkpoints/SHA256SUMS` 比较。

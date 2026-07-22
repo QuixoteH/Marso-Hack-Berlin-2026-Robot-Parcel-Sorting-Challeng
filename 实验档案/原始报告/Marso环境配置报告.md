@@ -253,7 +253,7 @@ reset: success
 step: success
 ```
 
-### Diffusion Policy smoke test
+### Diffusion Policy 冒烟测试
 
 测试内容：
 
@@ -287,7 +287,7 @@ process exit code: 0
 - RGB 观测训练
 - NVIDIA GPU Vulkan 渲染
 - 评估视频录制
-- RGB demonstration replay
+- RGB 示范 replay
 
 原因是当前容器没有挂载 NVIDIA Vulkan/graphics 驱动库，而不是 Python 环境缺包。若要启用这些功能，需要租用平台以类似以下能力重新创建容器：
 

@@ -1,134 +1,54 @@
-# Imitation Learning — WarehouseSort
+# 模仿学习——WarehouseSort
 
-Main track is **state-based**. The IL pipeline follows ManiSkill 3's standard approach:
-**demos → train state Diffusion Policy → evaluate via eval.py**. A state DP runs end-to-end as a
-starting point. An optional **RGB** image track is also provided as a template
-(`method=dp_rgb`, `load_dp_rgb`) — harder, not yet solving the task.
+主赛道为 state。IL 流程为：**demos → 训练 state Diffusion Policy → 用 `eval.py` 评估**。state DP 可端到端运行；另提供更困难但尚未解决任务的 RGB 模板（`method=dp_rgb`、`load_dp_rgb`）。
 
----
+## 第一步：示范数据
 
-## Step 1 — Demonstrations (provided)
-
-**You don't need to record anything.** We provide pre-recorded demos for every level
-(**200 episodes per level**, `state` for the main track + `rgb` for the image track) as the
-[Kaggle competition
-data](https://www.kaggle.com/competitions/marso-hack-berlin-2026-robot-parcel-sorting-challenge/data).
-
-- **On Kaggle**: the competition data is mounted under `/kaggle/input/` automatically.
-- **Elsewhere**: fetch it once (join the competition + set a Kaggle API token first):
+无需自行录制。每个难度提供 200 个 episode 的 `state` 和 `rgb` 数据，来自 [Kaggle competition data](https://www.kaggle.com/competitions/marso-hack-berlin-2026-robot-parcel-sorting-challenge/data)。Kaggle 中数据自动挂载在 `/kaggle/input/`；其他环境先加入竞赛并配置 Kaggle API token，再执行：
 
 ```bash
 pixi run python il/download_demos.py
 ```
 
-Either way the files are staged into `il/demos/<level>/`. **Each dataset is a pair** — the
-`trajectory.rgb.pd_ee_delta_pos.physx_cuda.h5` (data) **and** the matching
-`trajectory.rgb.pd_ee_delta_pos.physx_cuda.json` (control-mode metadata). Both are required and
-must sit together; the trainer finds the `.json` next to the `.h5`.
+文件会进入 `il/demos/<level>/`。每份数据都由 `.h5` 和同名 `.json` 组成，二者必须放在同一目录；trainer 会在 `.h5` 旁寻找 control-mode metadata。示范由 `examples/scripted_policy.py` 生成，只能用于收集数据；提交 scripted、hard-coded 或读取 privileged simulator state 的控制器会被取消资格。
 
-> ⚠️ The demos are recorded by rolling out a **scripted waypoint policy**
-> (`examples/scripted_policy.py`). Using it to *collect data* is exactly how we built these
-> datasets and is fine. **Submitting a scripted / hard-coded controller is not allowed and
-> leads to disqualification** — your submitted policy must act from the observation.
-
-### Optional — generate more demos
-
-If you want extra data, record more with the same tool. Demos are clean scripted trajectories
-(no action noise) and each episode ends the moment all parcels are sorted:
+### 可选：生成更多示范
 
 ```bash
-pixi run python il/gen_demos.py --difficulty easy   --num-episodes 200
+pixi run python il/gen_demos.py --difficulty easy --num-episodes 200
 pixi run python il/gen_demos.py --difficulty medium --num-episodes 200
-pixi run python il/gen_demos.py --difficulty hard   --num-episodes 200
+pixi run python il/gen_demos.py --difficulty hard --num-episodes 200
 ```
 
-**How it works — record → replay → media** (the standard ManiSkill data pipeline):
+流程为 **record → replay → media**：`RecordEpisode` 保存 raw trajectory 与 env state；`replay_trajectory` 重放动作并渲染 RGB，得到训练用 H5；随后保存 `media/<level>_demo.mp4` 和 GIF。`--no-replay` 只保留 raw demo，`--no-media` 跳过视频，`--base-seed` 改变 seed 区间。
 
-1. **Record** — rolls the scripted waypoint policy across `--num-episodes` seeds (one env at a
-   time) and writes the raw trajectories + env states to `il/demos/<level>/trajectory.h5` via
-   ManiSkill's `RecordEpisode`. (The scripted policy reads privileged sim state to *control* the
-   arm; this is only the data generator, not a submittable policy.)
-2. **Replay** — runs ManiSkill's `replay_trajectory` to re-execute the recorded actions and
-   render fresh **rgb** observations, producing the training-ready dataset the trainer loads:
-   `trajectory.rgb.pd_ee_delta_pos.physx_cuda.h5`. Replay runs single-env (GPU) because it
-   reproduces each trajectory from recorded env states.
-3. **Media** — saves a demo `media/<level>_demo.mp4` and `media/<level>_demo.gif`
-   (render + sensor views) so you can eyeball what a successful episode looks like.
-
-Useful flags: `--no-replay` (raw demos only), `--no-media` (skip the mp4/gif), `--base-seed`
-(shift the seed range so new demos differ from the provided set). Run
-`pixi run python il/gen_demos.py --help` for all options.
-
----
-
-## Step 2 — Train
+## 第二步：训练
 
 ```bash
-pixi run python il/train.py method=dp demo_dir=easy        # state Diffusion Policy (main track)
-```
-
-Train each level separately (state is parcel-count-specific → **one checkpoint per level**):
-```bash
+pixi run python il/train.py method=dp demo_dir=easy
 pixi run python il/train.py method=dp demo_dir=medium
 pixi run python il/train.py method=dp demo_dir=hard
 ```
 
-Override any hyperparameter on the CLI (e.g. a longer prediction horizon):
+state 维度随难度变化，因此每个难度独立训练并提交 checkpoint。可通过 CLI 覆盖参数：
+
 ```bash
 pixi run python il/train.py method=dp flags.total_iters=50000 flags.pred_horizon=32
 ```
 
-Checkpoints land at `il/baselines/diffusion_policy/runs/<exp_name>/checkpoints/` (the state
-method's default `exp_name` is `warehouse_state_dp_easy`). For the optional image track use
-`method=dp_rgb`.
+checkpoint 位于 `il/baselines/diffusion_policy/runs/<exp_name>/checkpoints/`。自定义数据可传入完整 `demo_path=`，并保留同目录 `.json`。RGB 模板使用 `method=dp_rgb`。
 
-**Datasets in a custom location** (e.g. the mounted Kaggle competition data, not `il/demos/`): pass `demo_path=`
-the full path to the `.h5` — keep the matching `.json` in the same folder:
-
-```bash
-pixi run python il/train.py method=dp \
-    demo_path=/kaggle/input/<competition>/easy/trajectory.state.pd_ee_delta_pos.physx_cuda.h5
-```
-
----
-
-## Step 3 — Evaluate
+## 第三步：评估
 
 ```bash
 pixi run python eval.py difficulty=easy \
-    policy=warehouse_sort.il_policy:load_dp \
-    checkpoint=il/baselines/diffusion_policy/runs/warehouse_state_dp_easy/checkpoints/best_eval_sort_accuracy.pt \
-    eval_config=conf/eval/default.yaml
+  policy=warehouse_sort.il_policy:load_dp \
+  checkpoint=PATH_TO_CHECKPOINT \
+  eval_config=conf/eval/default.yaml
 ```
 
-Use the matching per-level checkpoint for `difficulty=medium` / `difficulty=hard`.
+Medium 和 Hard 必须使用各自 checkpoint。最终选型使用 `conf/eval/server_50.yaml`，而不是默认少量 episode 配置。
 
----
+## 训练时间与说明
 
-## Training time
-
-Rough training time for the provided **state** Diffusion Policy at default settings (single modern
-GPU, e.g. Colab T4). The optional image (rgb) track is a template that does not yet solve the task.
-
-| method | obs | level | default iters | approx. train time |
-|--------|-----|-------|:---:|:---:|
-| DP | state | easy   | 30k | ~20–40 min |
-| DP | state | medium | 50k | ~40–70 min |
-| DP | state | hard   | 60k | ~50–90 min |
-| DP | rgb (scene) | any | 30k | ~30–90 min |
-
-(Training time is for a single modern GPU, e.g. Colab T4.)
-
----
-
-## Technical notes
-
-- **Why Diffusion Policy?** A plain MLP behavior cloner collapses here due to compounding error;
-  Diffusion Policy's action chunking helps. (It's still only a starting point — the image
-  template does not yet solve the task.)
-- **Image input = a single fixed third-person scene camera.** It keeps the whole workspace
-  (robot + parcels + bins) in frame the entire episode and has the same shape at any parcel
-  count, so one policy can run across difficulties.
-- ManiSkill 3.0.1 pip wheel does not ship `examples/baselines`, so the DP baseline is
-  vendored in `il/baselines/diffusion_policy/`.
-- Set `HDF5_USE_FILE_LOCKING=FALSE` if replay/load races on the just-written `.h5`.
+单张现代 GPU（如 Colab T4）上，默认 state DP 约需 Easy 20–40 分钟、Medium 40–70 分钟、Hard 50–90 分钟；RGB 模板约 30–90 分钟且尚未解决任务。Diffusion Policy 的 action chunking 用于减轻 behavior cloning 的 compounding error。ManiSkill 3.0.1 wheel 不带 `examples/baselines`，因此 DP baseline 已 vendored 至 `il/baselines/diffusion_policy/`。重放或加载新写入 H5 发生竞争时设置 `HDF5_USE_FILE_LOCKING=FALSE`。
