@@ -1,9 +1,9 @@
-# Pitfall Index
+# 踩坑索引
 
-| Topic | Document | Practical rule |
+| 主题 | 文档 | 实用规则 |
 |---|---|---|
-| Headless graphics | [01-headless-and-vulkan.md](01-headless-and-vulkan.md) | CUDA does not imply a usable Vulkan renderer |
-| Dataset semantics | [02-dataset-and-actions.md](02-dataset-and-actions.md) | Do not silently assume H5 labels fit the declared action Box |
-| Evaluation | [03-evaluation-and-selection.md](03-evaluation-and-selection.md) | Use fixed independent episodes for model selection |
+| Headless 图形 | [01-headless-and-vulkan.md](01-headless-and-vulkan.md) | 有 CUDA 不等于有可用 Vulkan renderer |
+| 数据集语义 | [02-dataset-and-actions.md](02-dataset-and-actions.md) | 不要默认 H5 标签符合声明的 action Box |
+| 评估 | [03-evaluation-and-selection.md](03-evaluation-and-selection.md) | 用固定且独立的 episode 选择模型 |
 
-The original incident reports are preserved without rewriting in [实验档案/原始报告](../实验档案/原始报告/).
+原始事故报告保持原样，位于 [实验档案/原始报告](../实验档案/原始报告/)。

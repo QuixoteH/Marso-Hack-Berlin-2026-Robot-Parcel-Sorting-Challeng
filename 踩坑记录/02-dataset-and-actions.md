@@ -1,7 +1,7 @@
-# Dataset and Actions
+# 数据集与动作
 
-The demonstration H5 action labels exceed the environment's declared `[-1, 1]` bounds. This may reflect pre-controller commands, scaling, or clipping elsewhere in the stack. It is not safe to train a tanh-bounded policy against these labels without documenting the target transformation.
+示范 H5 的动作标签超出环境声明的 `[-1, 1]` 范围，可能对应 pre-controller command、缩放或栈中其他位置的裁剪。若不说明目标变换，不能安全地用这些标签训练 tanh 有界 policy。
 
-The recordings also need careful temporal handling: observations have one more entry than actions, and `terminated`/`truncated` are not automatically a reliable RL replay rule. State and RGB observations have different schemas and cannot share a loader.
+录制数据还需要谨慎处理时间关系：观测条目比动作多一个；`terminated`/`truncated` 不能自动作为可靠的 RL replay 规则。state 与 RGB 的观测 schema 不同，不能共享 loader。
 
-The generated state datasets retain JSON manifests and SHA-256 values under `experiments/datasets/`; large H5 payloads remain local.
+生成的 state 数据集在 `experiments/datasets/` 下保留 JSON manifest 与 SHA-256；大体积 H5 payload 留在本地。

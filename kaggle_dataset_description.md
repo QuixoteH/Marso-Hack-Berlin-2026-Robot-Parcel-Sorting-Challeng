@@ -1,47 +1,30 @@
-# WarehouseSort — Demonstration Datasets
+# WarehouseSort——示范数据集
 
-Expert demonstrations for the **WarehouseSort** pick-and-place challenge: a Franka Panda robot
-sorts parcels into the bin matching the **colored tag on each parcel's top face** (red tag → red
-bin, blue tag → blue bin).
+WarehouseSort 抓取与放置挑战的专家示范：Franka Panda 需要将包裹放入与包裹顶面颜色标签相同的箱子（红标签对应红箱、蓝标签对应蓝箱）。
 
-## What's included
+## 内容
 
-**200 demonstration episodes per difficulty level**, organized by folder:
+每个难度包含 **200 条示范 episode**：
 
-| folder | level | parcels | randomization |
-|--------|-------|---------|---------------|
-| `easy/`   | easy   | 2 | fully fixed layout |
-| `medium/` | medium | 4 | small position jitter |
-| `hard/`   | hard   | 6 | small position + slight orientation jitter; bins may swap sides |
+| 文件夹 | 难度 | 包裹数 | 随机化 |
+|---|---|---:|---|
+| `easy/` | 简单 | 2 | 布局完全固定 |
+| `medium/` | 中等 | 4 | 小幅位置扰动 |
+| `hard/` | 困难 | 6 | 小幅位置/朝向扰动，箱子可能互换 |
 
-Each folder contains ManiSkill trajectory datasets (each is a **pair** — `.h5` + `.json`, both
-required):
+每个文件夹都包含成对的 ManiSkill trajectory 文件（`.h5` 和同名 `.json` 必须同时存在）：
 
-- `trajectory.state.pd_ee_delta_pos.physx_cuda.{h5,json}` — **state** track (main)
-- `trajectory.rgb.pd_ee_delta_pos.physx_cuda.{h5,json}` — **rgb** track (optional image track)
+- `trajectory.state.pd_ee_delta_pos.physx_cuda.{h5,json}`：主 state 赛道；
+- `trajectory.rgb.pd_ee_delta_pos.physx_cuda.{h5,json}`：可选 RGB 图像赛道。
 
-**Observations.** *State* (main track): a low-dim vector with robot proprioception + parcel poses
-& tag colors + bin positions & colors (its length grows with the parcel count, so it is
-level-specific). *RGB* (optional): a fixed third-person scene-camera image `(128, 128, 3)` uint8 +
-proprioception `(26,)`. **Action** (both): `pd_ee_delta_pos`, 4 dims in `[-1, 1]` (end-effector
-Δxyz + gripper).
+**观测。** state 赛道是机器人 proprioception、包裹位姿/标签颜色与箱子位置/颜色构成的低维向量，长度随包裹数变化；RGB 赛道是固定第三人称相机图像 `(128, 128, 3)` uint8 加上 `(26,)` proprioception。两条赛道的动作均为 `pd_ee_delta_pos`：范围 `[-1, 1]` 内的四维向量（末端执行器 Δxyz 与夹爪）。
 
-## How they were generated (ManiSkill 3)
+## 生成方式
 
-A deterministic **scripted waypoint policy** solves the task in the GPU-accelerated
-[ManiSkill 3](https://maniskill.readthedocs.io/en/latest/) simulator. We **record** each rollout
-with ManiSkill's `RecordEpisode`, then **replay** it (`replay_trajectory`) to render the
-observations in each mode — the standard ManiSkill *record → replay* pipeline. Trajectories are
-clean (no action noise) and each episode ends the moment all parcels are correctly sorted.
+在 GPU 加速的 [ManiSkill 3](https://maniskill.readthedocs.io/en/latest/) 中，确定性的 scripted waypoint policy 完成任务。流程为标准的 **record → replay**：先由 `RecordEpisode` 录制 rollout，再由 `replay_trajectory` 重放并渲染对应观测。轨迹没有动作噪声，所有包裹正确分拣后 episode 结束。
 
-> The scripted policy reads privileged simulator state to drive the arm — it is the **data
-> generator only**. Submitted policies must act from the observation.
+> scripted policy 读取特权 simulator state 只用于**数据生成**。提交的 policy 必须仅从观测做动作。
 
-## How to use them (imitation learning)
+## 使用方式
 
-Train a policy by behavior cloning: predict the action sequence from the recent observations. The
-provided baseline loads these `.h5` files directly and trains a Diffusion Policy. The **main track
-is state-based** (one checkpoint per level, since the state vector is level-specific); an optional
-**rgb** image track is also provided.
-
-See the challenge repository for the full training + evaluation pipeline.
+可使用行为克隆从最近观测预测动作序列。仓库中的 Diffusion Policy baseline 直接加载这些 `.h5` 文件；主赛道为 state（因向量长度随难度变化，每个难度单独训练一个 checkpoint），另提供可选 RGB 赛道。完整训练与评估步骤见仓库主 README。
