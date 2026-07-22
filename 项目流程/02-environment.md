@@ -1,21 +1,8 @@
-# Environment
+# 环境
 
-## Recorded Training Host
+## 记录的训练主机
 
-The verified state workflow used GPU PhysX in headless mode with rendering disabled. This is the recorded experiment stack, not a general minimum requirement:
-
-| Component | Recorded version / setting |
-|---|---|
-| Python | 3.10.16 |
-| PyTorch | 2.6.0+cu126 |
-| CUDA | 12.6 |
-| ManiSkill | 3.0.1 |
-| SAPIEN | 3.0.3 |
-| Diffusers | 0.38.0 |
-| GPU | RTX 3090, 24 GiB |
-| Simulator mode | GPU PhysX, headless state evaluation |
-
-Start a shell with the recorded environment variables:
+已验证 state workflow 使用 GPU PhysX、headless 运行并关闭渲染。记录环境为 Python 3.10.16、PyTorch 2.6.0+cu126、CUDA 12.6、ManiSkill 3.0.1、SAPIEN 3.0.3、Diffusers 0.38.0，以及 RTX 3090 24 GiB。
 
 ```bash
 source /data/miniconda/etc/profile.d/conda.sh
@@ -24,11 +11,9 @@ export HDF5_USE_FILE_LOCKING=FALSE
 cd /data/coding/berlin-marso-hackathon
 ```
 
-For a fresh public checkout, use the project-local Pixi workflow shown in the top-level README instead. The server-specific Conda path above is retained because it describes the evidence-producing environment.
+上述 Conda 路径属于证据产生服务器；fresh public checkout 请使用 README 中的 Pixi 命令。新主机应记录 package version 与 renderer mode，不能只凭 CUDA 可用即判定 RGB 可评估。
 
-## Smoke Checks
-
-Before committing a long run, check the smallest relevant surface:
+## Smoke check
 
 ```bash
 pixi install
@@ -36,19 +21,14 @@ pixi run install
 pixi run python -c "import torch; print(torch.cuda.is_available())"
 pixi run python eval.py difficulty=easy \
   policy=examples.random_policy:load_policy \
+  checkpoint=ignored \
   eval_config=conf/eval/default.yaml
 ```
 
-The recorded host completed state reset/step, DP optimization, EMA loading, and headless evaluation. Record the exact package versions and renderer mode for any new host; CUDA availability alone does not establish that RGB evaluation will work.
+记录主机已验证 state reset/step、DP optimization、EMA load 与 headless evaluation。
 
-## Renderer Limitation
+## Renderer 限制
 
-The host exposes CUDA compute but did not expose an NVIDIA Vulkan renderer usable by SAPIEN. The ACT evidence log includes warnings for missing Vulkan ICD and GLVND ICD files. State experiments therefore use `render_mode=None` and `render_backend="none"`; no result in this archive relies on a video-rendered state rollout.
+该主机有 CUDA compute，却没有 SAPIEN 可用的 NVIDIA Vulkan renderer。ACT 日志包含缺失 Vulkan ICD 和 GLVND ICD 的告警。因此 state 实验使用 `render_mode=None` 与 `render_backend="none"`；ACT 离线训练可运行，但 RGB environment 与 video replay 不能在该机验证。不要用 CPU `llvmpipe` 替代，因为它不能与这里的 CUDA 路径互操作。请将 ACT/RGB 评估迁移至 graphics-capable NVIDIA host。
 
-| Workflow | Recorded host status | Appropriate claim |
-|---|---|---|
-| State DP training and headless evaluation | verified | local 50-episode metrics are available |
-| ACT offline training and checkpoint loading | verified | optimization and serialization completed |
-| ACT RGB environment / video replay | blocked by Vulkan renderer | no closed-loop score is available |
-
-Move the ACT checkpoint to a machine with a functional NVIDIA graphics driver and Vulkan ICD before running RGB evaluation. Do not bypass a renderer failure by treating the absence of a score as score zero. The original environment reports are preserved in [实验档案/原始报告](../实验档案/原始报告/).
+原始环境记录保留在 [实验档案/原始报告](../实验档案/原始报告/)。

@@ -1,47 +1,7 @@
-# Data and Protocol
+# 数据与协议
 
-## Demonstrations And Observation Contract
+各难度官方数据各有 200 条示范。state 观测维度为 Easy 54、Medium 72、Hard 90，因此每个难度必须单独训练 state checkpoint。额外生成的 state 数据为 Medium 400 条、Hard 600 条；H5 因体积留在本地，JSON manifest 与 SHA-256 保留在 `experiments/datasets/`。
 
-Each official difficulty starts from 200 demonstrations. State observation widths are 54, 72, and 90 for Easy, Medium, and Hard, respectively. That parcel-count-specific contract is why the state track trains and submits one model per difficulty. The RGB ACT experiment uses the Easy scene camera dataset plus proprioception; it must not silently fall back to privileged state fields.
+H5 审计发现原始 action 超出环境声明的 `[-1, 1]` Box。训练必须明确采用回归、裁剪、归一化或转换；不能无说明地用 tanh 有界 policy 拟合这些标签。`terminated` 与 `truncated` 也不能直接当作 RL replay 的 bootstrap 规则。
 
-| Difficulty | Base demonstrations | Additional local state data | State observation width |
-|---|---:|---:|---:|
-| Easy | 200 | none recorded | 54 |
-| Medium | 200 | 400 successful trajectories | 72 |
-| Hard | 200 | 600 successful trajectories | 90 |
-
-The H5 audit found raw action values outside the environment's declared `[-1, 1]` Box. A training run must make its label treatment explicit: regression, clipping, normalization, or conversion. Do not assume that an action array already matches the control API. For RL additions, validate replay handling of `terminated` and `truncated` before claiming the bootstrap target is correct.
-
-## Fixed Local Evaluation Protocol
-
-All reportable DP comparisons use [`conf/eval/server_50.yaml`](../conf/eval/server_50.yaml) and the official policy loader. The contract is:
-
-| Setting | Required value |
-|---|---|
-| Episode count | 50 |
-| Environment seeds | `5000-5049` |
-| Video | disabled |
-| Primary metric | `sort_accuracy` |
-| Supporting diagnostics | `mean_sorted/episode`, `all_placed_rate`, `mis_sort_rate` |
-| Submission track | state DP only for the recorded final policy |
-
-Run it through the public entry point:
-
-```bash
-pixi run python eval.py difficulty=hard \
-  policy=warehouse_sort.il_policy:load_dp \
-  checkpoint=PATH_TO_CHECKPOINT \
-  eval_config=conf/eval/server_50.yaml
-```
-
-Keep the emitted configuration block and metrics as the evidence record. The final clean-shell logs are published in [`evidence/evaluations/`](../evidence/evaluations/). Training-time 4/8/16-episode metrics can select which candidate to investigate, but they cannot replace this final protocol.
-
-## Metric Interpretation
-
-`sort_accuracy` is the fraction of all parcels that finish in a matching bin. A parcel must be released, settled, inside the matching footprint, and below the rim. Grasping a parcel, moving it above a bin, or releasing it outside the match does not count.
-
-The challenge aggregate is `0.20 * Easy + 0.30 * Medium + 0.50 * Hard`. Apply it only to results obtained under the same intended protocol. The current final local scores yield `0.1565`; do not relabel that aggregate as a held-out competition result.
-
-## Artifact Handling
-
-Generated H5 files, original demonstrations, and checkpoints stay outside normal Git history because of size and competition-data constraints. The public repository retains JSON manifests, final CSV rows, checksums, logs, and the artifact index needed to audit claims. See [`RELEASE_MANIFEST.md`](../RELEASE_MANIFEST.md) and [`evidence/README.md`](../evidence/README.md) before restoring or publishing binaries.
+最终评估使用 `conf/eval/server_50.yaml`：50 episodes、seeds `5000-5049`、无视频、官方 policy loader。记录 `sort_accuracy`、`mean_sorted`、`all_placed_rate` 与 `mis_sort_rate`。训练期 4/8/16-episode 指标只能筛选候选，不能替代此协议。最终日志见 [`evidence/evaluations/`](../evidence/evaluations/)。
