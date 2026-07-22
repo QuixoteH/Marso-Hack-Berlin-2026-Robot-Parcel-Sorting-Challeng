@@ -45,3 +45,4 @@ il/baselines/act/runs/
 
 # Small archived logs are evidence, not generated worktree output.
 !实验档案/**/*.log
+!evidence/**/*.log

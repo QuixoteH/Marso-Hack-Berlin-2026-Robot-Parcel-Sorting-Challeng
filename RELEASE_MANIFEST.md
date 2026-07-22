@@ -7,6 +7,7 @@ This repository is prepared for ordinary GitHub Git hosting, not Git LFS. The in
 - Challenge source modifications, DP/ACT scripts, and policy loaders.
 - `experiments/results.csv`, `experiments/final_report.md`, selected shell tooling, JSON manifests, and SHA-256 lists.
 - The original DP reports and compact ACT offline-reproduction material under `实验档案/`.
+- Four final DP evaluation logs, one ACT training log, and two source-labelled figures under `evidence/`.
 - Media that documents the task, configuration files, and the selected `submission.yaml`.
 
 ## Deliberately Local-Only
@@ -17,7 +18,7 @@ This repository is prepared for ordinary GitHub Git hosting, not Git LFS. The in
 | DP submission archive | `experiments/marso_final_submission.tar.gz` | about 195 MiB; exceeds GitHub's per-file limit |
 | Generated H5 datasets | `experiments/datasets/**/trajectory.h5` | 20-219 MiB per file; several exceed GitHub's limit |
 | Original demonstration H5 | `il/demos/**/trajectory.*.h5` | competition data, large and not for normal Git history |
-| Training logs and event files | `experiments/logs/`, `il/baselines/*/runs/`, `outputs/` | generated, large, and reproducible from recorded commands |
+| Training logs and event files | `experiments/logs/`, `il/baselines/*/runs/`, `outputs/` | generated artifacts; compact final logs are copied into `evidence/`, but TensorBoard event files were not present in the supplied archive |
 | ACT checkpoint | `/data/coding/ACT榜一复现实验_2026-07-19/checkpoints/act_easy_rank1_offline_30k_final.pt` | 133 MiB; exceeds GitHub's per-file limit |
 | Original archives and dataset zip | `/data/coding/*.tar.gz`, `/data/coding/*challenge*.zip` | source delivery artifacts, up to 408 MiB |
 

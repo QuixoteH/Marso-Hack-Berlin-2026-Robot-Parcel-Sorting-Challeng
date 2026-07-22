@@ -1,0 +1,49 @@
+/data/miniconda/envs/marso-rl/lib/python3.10/site-packages/sapien/_vulkan_tricks.py:42: UserWarning: Failed to find system libvulkan. Fallback to SAPIEN builtin libvulkan.
+  warn("Failed to find system libvulkan. Fallback to SAPIEN builtin libvulkan.")
+/data/miniconda/envs/marso-rl/lib/python3.10/site-packages/sapien/_vulkan_tricks.py:78: UserWarning: Failed to find Vulkan ICD file. This is probably due to an incorrect or partial installation of the NVIDIA driver. SAPIEN will attempt to provide an ICD file anyway but it may not work.
+  warn(
+/data/miniconda/envs/marso-rl/lib/python3.10/site-packages/sapien/_vulkan_tricks.py:100: UserWarning: Failed to find glvnd ICD file. This is probably due to an incorrect or partial installation of the NVIDIA driver. SAPIEN will attempt to provide an ICD file anyway but it may not work.
+  warn(
+======================================================================
+[eval] git=6048f33217f26ae39009a812f53c81171517f393
+----------------------------------------------------------------------
+difficulty:
+  name: hard
+  num_parcels: 6
+  fixed_poses: false
+randomization:
+  parcel_pose:
+    xy_jitter:
+    - -0.02
+    - 0.02
+    yaw_jitter:
+    - -0.1
+    - 0.1
+  bin_position:
+    side_swap_prob: 0.5
+    xy_jitter:
+    - 0.0
+    - 0.0
+seed: 0
+num_envs: 8
+device: cuda
+control_mode: pd_ee_delta_pos
+max_episode_steps: 550
+obs_mode: state
+camera:
+  width: 128
+  height: 128
+obs_camera: scene
+checkpoint: experiments/checkpoints/state_hard_best.pt
+eval_config: conf/eval/server_50.yaml
+record_video: false
+policy: warehouse_sort.il_policy:load_dp
+======================================================================
+number of parameters: 4.73M
+--------------------------------------------------
+EVAL  difficulty=hard  n_episodes=50  obs_mode=state
+  SORT ACCURACY:         10.3 %      # PRIMARY METRIC
+  mean_sorted/episode:  0.62 / 6
+  all_placed_rate:      0.000
+  mis_sort_rate:        0.000        # diagnostic
+--------------------------------------------------

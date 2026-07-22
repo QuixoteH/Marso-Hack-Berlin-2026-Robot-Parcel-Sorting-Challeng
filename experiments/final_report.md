@@ -8,7 +8,7 @@
 
 ## Final Verification
 
-最终 DP checkpoint 使用官方 loader 在无训练进程的干净 shell 中完成固定 50-episode、无视频复验：Easy 0.390、Medium 0.090、Hard 0.103。评估显式固定 Torch/CUDA RNG seed 为 0，并重复 Easy 得到相同分数。按计划权重 0.50 / 0.30 / 0.20 计算，加权分数为 0.2421。
+最终 DP checkpoint 使用官方 loader 在无训练进程的干净 shell 中完成固定 50-episode、无视频复验：Easy 0.390、Medium 0.090、Hard 0.103。评估显式固定 Torch/CUDA RNG seed 为 0，并重复 Easy 得到相同分数。挑战权重为 Easy/Medium/Hard = `0.20 / 0.30 / 0.50`，故这组三个本地固定种子结果的加权值为 `0.1565`。该数值不是 Kaggle held-out leaderboard 分数。
 
 | Level | Method | Source checkpoint | Final checkpoint | Fixed-50 score | SHA-256 |
 |---|---|---|---|---:|---|
@@ -16,7 +16,7 @@
 | Medium | DP | `il/baselines/diffusion_policy/runs/dp_medium_baseline_s1/checkpoints/best_eval_sort_accuracy.pt` | `experiments/checkpoints/state_medium_best.pt` | 0.090 | `a3e6791d9485c90d1c501b362277baa4fe0cf7a4624abd30360daea1b3544246` |
 | Hard | DP | `il/baselines/diffusion_policy/runs/dp_hard_aug_b512_s3/checkpoints/best_eval_sort_accuracy.pt` | `experiments/checkpoints/state_hard_best.pt` | 0.103 | `4019d3599ee9f5dd4e74711c95c347bf40edea8349235cd6e578674ed485bb00` |
 
-完整逐次训练和评估记录在 `experiments/results.csv`；最终确定性加载复验日志在 `experiments/logs/eval_dp_*_best_deterministic.log`；哈希清单在 `experiments/checkpoints/SHA256SUMS`。
+完整逐次训练和评估记录在 `experiments/results.csv`；最终确定性加载复验日志公开在 [`evidence/evaluations/`](../evidence/evaluations/)；哈希清单在 `experiments/checkpoints/SHA256SUMS`。候选分数图由 CSV 生成，见 [`evidence/figures/dp_candidate_scores.png`](../evidence/figures/dp_candidate_scores.png)。
 
 ## Reproducibility
 
