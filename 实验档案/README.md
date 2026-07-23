@@ -4,8 +4,10 @@
 
 | 目录 | 内容 |
 |---|---|
-| [原始报告](原始报告/) | 环境记录与 DP 各批次报告 |
-| [ACT离线复现](ACT离线复现/) | Easy ACT 30k 离线训练报告与最终训练日志 |
+| [dp训练和评估](dp训练和评估/) | 环境记录与 DP 各批次训练、评估报告 |
+| [ACT离线复现](ACT离线复现/) | Easy ACT 30k 离线训练、日志与 Vulkan 闭环评估阻塞说明 |
+
+跨批次的指标定义、DP 候选与定版结果、ACT 离线训练边界及后续闭环评估条件见[训练与评估结果说明](训练与评估结果说明_2026-07-23.md)。
 
 H5 数据集、checkpoint binary、TensorBoard event file、生成的 run folder 和 tar archive 体积较大，因此不在本目录也不进入 Git。其本地来源与 integrity data 见 [RELEASE_MANIFEST.md](../RELEASE_MANIFEST.md)。
 
