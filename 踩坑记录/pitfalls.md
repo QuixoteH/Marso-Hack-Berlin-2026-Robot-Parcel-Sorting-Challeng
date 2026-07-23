@@ -6,4 +6,4 @@
 | 数据集语义 | [02-dataset-and-actions.md](02-dataset-and-actions.md) | 不要默认 H5 标签符合声明的 action Box |
 | 评估 | [03-evaluation-and-selection.md](03-evaluation-and-selection.md) | 用固定且独立的 episode 选择模型 |
 
-原始事故报告保持原样，位于 [实验档案/原始报告](../实验档案/原始报告/)。
+DP 训练、评估与环境报告保持原样，位于 [实验档案/dp训练和评估](../实验档案/dp训练和评估/)。

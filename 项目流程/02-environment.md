@@ -31,4 +31,4 @@ pixi run python eval.py difficulty=easy \
 
 该主机有 CUDA compute，却没有 SAPIEN 可用的 NVIDIA Vulkan renderer。ACT 日志包含缺失 Vulkan ICD 和 GLVND ICD 的告警。因此 state 实验使用 `render_mode=None` 与 `render_backend="none"`；ACT 离线训练可运行，但 RGB environment 与 video replay 不能在该机验证。不要用 CPU `llvmpipe` 替代，因为它不能与这里的 CUDA 路径互操作。请将 ACT/RGB 评估迁移至 graphics-capable NVIDIA host。
 
-原始环境记录保留在 [实验档案/原始报告](../实验档案/原始报告/)。
+环境记录保留在 [实验档案/dp训练和评估](../实验档案/dp训练和评估/)。
