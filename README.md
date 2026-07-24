@@ -57,7 +57,8 @@ pixi run python eval.py difficulty=easy \
 | 3 | [数据与协议](项目流程/03-data-and-protocol.md) | 数据审计、seed 与最终评估规则 |
 | 4 | [State DP](项目流程/04-state-dp.md) | 配置、候选选择、最终复验与产物 |
 | 5 | [RGB ACT](项目流程/05-act.md) | 离线复现参数及无闭环成绩的原因 |
-| 6 | [发布与提交](项目流程/07-release-and-submission.md) | 恢复、核验、封装和公开方式 |
+| 6 | [数据目录与命令](项目流程/06-data-layout-and-commands.md) | HDF5/JSON 配对、state/RGB/媒体关系、扩充数据与完整命令 |
+| 7 | [发布与提交](项目流程/07-release-and-submission.md) | 恢复、核验、封装和公开方式 |
 
 原始材料见 [实验档案](实验档案/README.md)，公开证据见 [evidence](evidence/README.md)，完整候选结果见 [experiments/results.csv](experiments/results.csv)。
 
