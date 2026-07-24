@@ -2,8 +2,6 @@
 
 这是 WarehouseSort 彩色包裹抓取分拣项目的可复现实验记录：Franka Panda 必须抓取包裹并将其放入标签颜色匹配的箱子。仓库包含可运行任务接入、选定的 State Diffusion Policy（DP）路径、ACT 离线复现、配置、命令、紧凑证据以及未验证结论的明确边界。
 
-目录结构参考 [JereoZero/so101-real](https://github.com/JereoZero/so101-real) 的公开项目写法：先给出结论与演示，再按流程、证据与发布清单展开。DP 使用 privileged state，ACT 使用 RGB 与 proprioception；两者不是算法 leaderboard 对比。
-
 ## 已验证结果
 
 以下 DP 成绩均由官方 loader 在 clean shell 中获得：固定 seeds `5000-5049`、50 个 episode、无视频，主指标为 `sort_accuracy`。它们是本地固定 seed 证据，不是 Kaggle held-out leaderboard 结果。
