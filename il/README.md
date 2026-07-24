@@ -12,6 +12,8 @@ pixi run python il/download_demos.py
 
 文件会进入 `il/demos/<level>/`。每份数据都由 `.h5` 和同名 `.json` 组成，二者必须放在同一目录；trainer 会在 `.h5` 旁寻找 control-mode metadata。示范由 `examples/scripted_policy.py` 生成，只能用于收集数据；提交 scripted、hard-coded 或读取 privileged simulator state 的控制器会被取消资格。
 
+H5 内部的 `traj_*`、JSON 与 H5 的对应关系、state/RGB replay、MP4/GIF 的非训练用途、扩充 state 数据的审计链路，以及 DP/ACT 的完整训练和评估命令见[数据目录、文件格式与训练评估命令](../项目流程/06-data-layout-and-commands.md)。
+
 ### 可选：生成更多示范
 
 ```bash

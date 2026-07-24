@@ -9,6 +9,7 @@
 | 3 | [03-data-and-protocol.md](03-data-and-protocol.md) | Demo audit, fixed 50-seed evaluation, data handling rules |
 | 4 | [04-state-dp.md](04-state-dp.md) | Three-difficulty state DP selection and independent recheck |
 | 5 | [05-act.md](05-act.md) | ACT offline reproduction and evaluation boundary |
-| 6 | [07-release-and-submission.md](07-release-and-submission.md) | Submission packaging and GitHub release boundary |
+| 6 | [06-data-layout-and-commands.md](06-data-layout-and-commands.md) | HDF5/JSON layout, state/RGB distinction, expanded datasets, and commands |
+| 7 | [07-release-and-submission.md](07-release-and-submission.md) | Submission packaging and GitHub release boundary |
 
 从任务约定开始，再使用方法文档获取准确命令、选定配置、结果边界与保留证据。公开 DP 图由 `experiments/results.csv` 生成；ACT 曲线来自保存的训练日志，不是 TensorBoard 导出。
